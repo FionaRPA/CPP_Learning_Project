@@ -5,17 +5,38 @@
 Compilez et lancez le programme.
 
 Allez dans le fichier `tower_sim.cpp` et recherchez la fonction responsable de gérer les inputs du programme.
+
+> *La méthode responsable des inputs est void TowerSimulation::create_keystrokes() const.*  
+
 Sur quelle touche faut-il appuyer pour ajouter un avion ?
+
+> *Pour ajouter un avion, il faut appuyer sur la touche 'C'.*  
+
 Comment faire pour quitter le programme ?
+
+> *Pour quitter le programme, il faut appuyer sur la touche 'X' ou  'Q'.*  
+
 A quoi sert la touche 'F' ?
+
+> *La touche 'F' sert à mettre ou à enlever la fenêtre du mode plein écran.*  
+
 
 Ajoutez un avion à la simulation et attendez.
 Que est le comportement de l'avion ?
+
+> *L'avion atterit, il va sur la case blanche, attend et redécole puis il vole en attendant d'effectuer une nouvelle fois ses opérations en boucle.*  
+
 Quelles informations s'affichent dans la console ?
+
+> *Dans la console, on voit le nom de l'avion qui atterit, lorsque qu'il arrive à sa base, lorsqu'il est près à repartir et lorsqu'il a décollé.*  
 
 Ajoutez maintenant quatre avions d'un coup dans la simulation.
 Que fait chacun des avions ?
 
+> *Lorsque l'on lance quatres avions, on voit qu'ils ne peuvent aller que trois par trois sur le plateau vu qu'il n'y a que trois terminaux. En attendant qu'il y ait de la place, il continue de tourner autour du plateau.*  
+  
+    
+    
 ## B- Analyse du code
 
 Listez les classes du programme à la racine du dossier src/.
