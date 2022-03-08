@@ -10,16 +10,15 @@ Allez dans le fichier `tower_sim.cpp` et recherchez la fonction responsable de g
 
 Sur quelle touche faut-il appuyer pour ajouter un avion ?
 
-> *Pour ajouter un avion, il faut appuyer sur la touche 'C'.*  
+> *Pour ajouter un avion, il faut appuyer sur la touche `C`.*  
 
 Comment faire pour quitter le programme ?
 
-> *Pour quitter le programme, il faut appuyer sur la touche 'X' ou  'Q'.*  
+> *Pour quitter le programme, il faut appuyer sur la touche `X` ou  `Q`.*  
 
-A quoi sert la touche 'F' ?
+A quoi sert la touche `F` ?
 
-> *La touche 'F' sert à mettre ou à enlever la fenêtre du mode plein écran.*  
-
+> *La touche `F` sert à mettre ou à enlever la fenêtre du mode plein écran.*  
 
 Ajoutez un avion à la simulation et attendez.
 Que est le comportement de l'avion ?
@@ -41,13 +40,74 @@ Que fait chacun des avions ?
 
 Listez les classes du programme à la racine du dossier src/.
 Pour chacune d'entre elle, expliquez ce qu'elle représente et son rôle dans le programme.
+- `Aircraft_types` → Classe qui définit tout les types d'avions
+- `Terminal` → Classe qui gère le terminal, stocke l'avion courant qu'il a et le supprime lorsqu'il s'en
+va, il peut contenir un avion à la fois maximum. (public GL::DynamicObject)
+- `Aircraft` -> Classe qui représente un avion. Il pourra être afficher et il pourra bouger. (public
+GL::Displayable, public GL::DynamicObject)
+- `Airport` → Classe qui gère l'aéroport avec son AirportType, ses terminals et sa tower.
+- `AirportType` → Classe qui contient tout les information sur un aéroport. (crossing_pos,
+gateway_pos, terminal_pos, runways)
+- `Tower` → Classe qui représente le comportement de la tour de contrôle. Gérer si un avion est atterrit,
+si il peut atterir (avec la fonction getInstruction get_instruction).
+- `Tower_sim` → Classe qui s'occupe de simuler notre programme avec la création des aéroports,
+des avions…
+- `Waypoint` → Classe qui représente les points de cheminements. Permet de savoir si un avion est dans les airs ou dans un terminal. (public Point3D)
+(Geometry.hpp contient Point2D et Point3D.)
+
 
 Pour les classes `Tower`, `Aircaft`, `Airport` et `Terminal`, listez leurs fonctions-membre publiques et expliquez précisément à quoi elles servent.
+
+- `Tower`
+    - WaypointQueue get_instructions(Aircraft& aircraft);
+    Donne les instructions en fonctions de ou est l'avion et de ce qu'il veut faire.
+    - void arrived_at_terminal(const Aircraft& aircraft);
+    Permet de lancer le service lorsque l'avion arrive sur un terminal.
+
+- `Aircaft`
+    - const std::string& get_flight_num() const;
+    Permet de récupérer le numéro de vol de l'avion.
+    - float distance_to(const Point3D& p) const;
+    Permet de calculer la distance entre le point p en paramètre et la positionde l'avion.
+    - void display() const override;
+    Permet d'afficher l'avion.
+    - void move() override;  
+    Permet de s'occuper du déplacement en fonction de ce qu'il fait ou ce qu'il peut faire.
+
+- `Airport`
+    - Tower& get_tower();
+    Permet de récupérer la tour qui s'occupe de l'aéroport.
+    - void display() const override;
+    Permet d'afficher l'aéroport.void move() override;  
+    Appelle la fonction move pour chacun des terminals de l'aéroport.
+
+- `Terminal`
+    - bool in_use() const;
+    Permet de voir si il y a un avion sur le terminal ou si il est libre.
+    - bool is_servicing() const;
+    Permet de savoir si un terminal est en service.
+    - void assign_craft(const Aircraft& aircraft);
+    Permet d'assigner un avion à un terminal.
+    - void start_service(const Aircraft& aircraft);
+    Fonction qui indique le démarage du service d'un avion et initialise la progression du serive à 0.
+    - void finish_service();
+    Permet de libérer a place s'il il n'y a plus d'avion dans le terminal et d'anoncer avec un message que le service est fini pour l'avion qui vient de partir.
+    - void move() override;
+    Cette fonction avance le service de l'avion.
+
+
 Réalisez ensuite un schéma présentant comment ces différentes classes intéragissent ensemble.
 
-Quelles classes et fonctions sont impliquées dans la génération du chemin d'un avion ?
+Quelles classes et fonctions sont impliquées dans la génération du chemin d'un avion ?  
+> *Les classes impliqués dans la génération du chemin d'avion sont Aircraft, Tower et Waypoint. La
+fonction qui gère le chemin de l'avion est Tower::get_instructions(Aircraft& aircraft), donc toute les
+fonctions appelé dedans gère le déplacement d'un avion.*
+
 Quel conteneur de la librairie standard a été choisi pour représenter le chemin ?
 Expliquez les intérêts de ce choix.
+> *using WaypointQueue = std::deque<Waypoint>;
+Le conteneur utilisé pour représenter les chemins est std::deque car les opérations utilisées sont en
+complexités constantes.*
 
 ## C- Bidouillons !
 
