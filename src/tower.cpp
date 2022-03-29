@@ -24,7 +24,7 @@ WaypointQueue Tower::get_instructions(Aircraft& aircraft)
             const auto vp = airport.reserve_terminal(aircraft);
             if (!vp.first.empty())
             {
-                reserved_terminals.emplace_back(&aircraft, vp.second);
+                reserved_terminals.emplace(&aircraft, vp.second);
                 return vp.first;
             }
             else
@@ -46,6 +46,7 @@ WaypointQueue Tower::get_instructions(Aircraft& aircraft)
         Terminal& terminal      = airport.get_terminal(terminal_num);
         if (!terminal.is_servicing())
         {
+            aircraft.is_service_done = true;
             terminal.finish_service();
             reserved_terminals.erase(it);
             aircraft.is_at_terminal = false;

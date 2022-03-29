@@ -18,7 +18,11 @@
 
 namespace GL {
 
+// TASK_0 C-2: framerate control
 inline unsigned int ticks_per_sec = DEFAULT_TICKS_PER_SEC;
+
+// TASK_0 C-2: pause
+inline bool is_paused = false;
 inline float zoom                 = DEFAULT_ZOOM;
 inline bool fullscreen            = false;
 

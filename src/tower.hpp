@@ -6,6 +6,7 @@
 #include <unordered_map>
 #include <utility>
 #include <vector>
+#include <map>
 
 class Airport;
 class Aircraft;
@@ -14,7 +15,10 @@ class Terminal;
 class Tower
 {
 private:
-    using AircraftToTerminal      = std::vector<std::pair<const Aircraft*, size_t>>;
+    // TASK_0 C-6
+    // We can use a map or an unordered map, in order to retrieve the terminal index from the Aircraft in
+    // O(1).
+    using AircraftToTerminal = std::map<const Aircraft*, size_t>;
     using AircraftAndTerminalIter = AircraftToTerminal::iterator;
 
     Airport& airport;
