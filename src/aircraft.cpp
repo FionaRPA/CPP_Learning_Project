@@ -88,15 +88,32 @@ void Aircraft::add_waypoint(const Waypoint& wp, const bool front)
     }
 }
 
+bool Aircraft::has_terminal() const
+{
+    return !waypoints.empty() && waypoints.back().is_at_terminal();
+}
+
 bool Aircraft::move()
 {
+    if(fuel <= 0)
+    {
+        std::cout << "Aircraft crash" << std::endl;
+        throw AircraftCrash { flight_number + " crashed : no fuel" };
+        return false;
+    }
+
     if (waypoints.empty())
     {
         if (is_service_done)
         {
             return false;
         }
-        waypoints = control.get_instructions(*this);
+        //waypoints = control.get_instructions(*this);
+        const auto front = false;
+        for (const auto& wp: control.get_instructions(*this))
+        {
+            add_waypoint(wp, front);
+        }
     }
 
     if (!is_at_terminal)
@@ -146,4 +163,31 @@ bool Aircraft::move()
 void Aircraft::display() const
 {
     type.texture.draw(project_2D(pos), { PLANE_TEXTURE_DIM, PLANE_TEXTURE_DIM }, get_speed_octant());
+}
+
+bool Aircraft::is_circling() const
+{
+    return !is_service_done && !is_at_terminal && !has_terminal();
+}
+
+bool Aircraft::is_low_on_fuel() const
+{
+    return fuel < 200;
+}
+
+int Aircraft::get_fuel() const
+{
+    return fuel;
+}
+
+bool Aircraft::aircraft_is_at_terminal(){
+    return is_at_terminal;
+}
+
+int Aircraft::get_required_fuel() const
+{
+    if(is_low_on_fuel() && is_at_terminal){
+        return 3000 - fuel;
+    }
+    return 0;
 }

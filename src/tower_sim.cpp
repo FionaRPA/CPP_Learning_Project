@@ -23,6 +23,9 @@ TowerSimulation::TowerSimulation(int argc, char** argv) :
     GL::init_gl(argc, argv, "Airport Tower Simulation");
 
     create_keystrokes();
+    // On doit ajouter le manager à la move_queue, afin que timer() appelle bien sa fonction update() à chaque
+    // frame.
+    GL::move_queue.emplace(&manager);
 }
 
 TowerSimulation::~TowerSimulation()
@@ -57,6 +60,14 @@ void TowerSimulation::create_keystrokes() const
     GL::keystrokes.emplace('+', []() { GL::change_zoom(0.95f); });
     GL::keystrokes.emplace('-', []() { GL::change_zoom(1.05f); });
     GL::keystrokes.emplace('f', []() { GL::toggle_fullscreen(); });
+
+    GL::keystrokes.emplace('z', []() { GL::ticks_per_sec = std::max(GL::ticks_per_sec - 1u, 1u); });
+    GL::keystrokes.emplace('a', []() { GL::ticks_per_sec = std::min(GL::ticks_per_sec + 1u, 180u); });
+
+    GL::keystrokes.emplace('p', []() { GL::is_paused = !GL::is_paused; });
+
+    GL::keystrokes.emplace('m', [this]() { manager.write_aircraft_crash(); });
+
 }
 
 void TowerSimulation::display_help() const

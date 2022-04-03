@@ -40,20 +40,18 @@ Que fait chacun des avions ?
 
 Listez les classes du programme à la racine du dossier src/.
 Pour chacune d'entre elle, expliquez ce qu'elle représente et son rôle dans le programme.
-- `Aircraft_types` → Classe qui définit tout les types d'avions
-- `Terminal` → Classe qui gère le terminal, stocke l'avion courant qu'il a et le supprime lorsqu'il s'en
-va, il peut contenir un avion à la fois maximum. (public GL::DynamicObject)
-- `Aircraft` -> Classe qui représente un avion. Il pourra être afficher et il pourra bouger. (public
-GL::Displayable, public GL::DynamicObject)
-- `Airport` → Classe qui gère l'aéroport avec son AirportType, ses terminals et sa tower.
-- `AirportType` → Classe qui contient tout les information sur un aéroport. (crossing_pos,
-gateway_pos, terminal_pos, runways)
-- `Tower` → Classe qui représente le comportement de la tour de contrôle. Gérer si un avion est atterrit,
-si il peut atterir (avec la fonction getInstruction get_instruction).
-- `Tower_sim` → Classe qui s'occupe de simuler notre programme avec la création des aéroports,
-des avions…
-- `Waypoint` → Classe qui représente les points de cheminements. Permet de savoir si un avion est dans les airs ou dans un terminal. (public Point3D)
-(Geometry.hpp contient Point2D et Point3D.)
+- AircraftType → Classe représentant les différents types d’avions et leur caractéristiques.
+- Aircraft → Classe qui représente un avion. Il pourra être afficher et il pourra bouger.
+- Airport → Classe qui gère l'aéroport avec son AirportType, ses terminals et sa tower.
+- AirportType → Classe qui contient tout les information sur un aéroport.
+- Config → Classe qui contient toute les configurations du programme.
+- Geometry → Classe représentant les calculs géométriques nécessaires pour le bon fonctionnement du programme.
+- Runway → Classe représentant les pistes de décollage et d’atterrissage.
+- Terminal → Classe qui gère le terminal, stocke l'avion courant qu'il a et le supprime lorsqu'il s'en
+va, il peut contenir un avion à la fois maximum.
+- TowerSimuation → Classe qui s'occupe de simuler notre programme avec la création des aéroports, des avions…
+- Tower → Classe qui représente le comportement de la tour de contrôle. Gérer si un avion est atterrit, s’il peut atterrir.
+- Waypoint → Classe qui représente les points de cheminements. Permet de savoir si un avion est dans les airs ou dans un terminal.
 
 
 Pour les classes `Tower`, `Aircaft`, `Airport` et `Terminal`, listez leurs fonctions-membre publiques et expliquez précisément à quoi elles servent.
