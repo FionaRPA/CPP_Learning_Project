@@ -15,6 +15,7 @@ add_executable(tower
 	src/img/stb_image.h
 	src/aircraft_manager.cpp
 	src/aircraft_manager.hpp
+	src/aircraft_factory.hpp
     src/aircraft_types.hpp
     src/aircraft.cpp
     src/aircraft.hpp
@@ -29,8 +30,7 @@ add_executable(tower
 	src/tower.cpp
 	src/tower.hpp
 	src/waypoint.hpp
-	src/main.cpp
-		src/aircraft_manager.hpp)
+	src/main.cpp src/aircraft_factory.hpp)
 
 ###################
 # Compile options #
