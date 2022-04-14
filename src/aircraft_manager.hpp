@@ -17,5 +17,4 @@ public:
     void add(std::unique_ptr<Aircraft> aircraft);
     void countAircraft(std::string company);
     bool move() override;
-    int get_required_fuel() const;
 };

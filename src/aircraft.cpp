@@ -15,6 +15,7 @@ void Aircraft::turn_to_waypoint()
             const Point3D W = (waypoints[0] - waypoints[1]).normalize(d / 2.0f);
             target += W;
         }
+
         turn(target - pos - speed);
     }
 }
@@ -94,6 +95,7 @@ bool Aircraft::has_terminal() const
 
 bool Aircraft::move()
 {
+
     if (waypoints.empty())
     {
         if (is_service_done)
@@ -133,12 +135,13 @@ bool Aircraft::move()
             }
             waypoints.pop_front();
         }
+
         if (is_on_ground())
         {
             if (!landing_gear_deployed)
             {
                 using namespace std::string_literals;
-                throw AircraftCrash { flight_number + " crashed to the ground" };
+                throw AircraftCrash { flight_number + " crashed into the ground"s };
             }
         }
         else
@@ -150,6 +153,7 @@ bool Aircraft::move()
                 pos.z() -= SINK_FACTOR * (SPEED_THRESHOLD - speed_len);
             }
         }
+
         // update the z-value of the displayable structure
         GL::Displayable::z = pos.x() + pos.y();
     }
@@ -166,7 +170,3 @@ bool Aircraft::is_circling() const
     return !is_service_done && !is_at_terminal && !has_terminal();
 }
 
-
-bool Aircraft::aircraft_is_at_terminal(){
-    return is_at_terminal;
-}

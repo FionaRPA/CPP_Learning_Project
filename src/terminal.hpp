@@ -26,7 +26,7 @@ public:
     void start_service(const Aircraft& aircraft)
     {
         assert(aircraft.distance_to(pos) < DISTANCE_THRESHOLD);
-        std::cout << "now servicing " << aircraft.get_flight_num() << "...\n";
+        std::cout << "Now servicing " << aircraft.get_flight_num() << "...\n";
         service_progress = 0;
     }
 
@@ -34,7 +34,7 @@ public:
     {
         if (!is_servicing())
         {
-            std::cout << "done servicing " << current_aircraft->get_flight_num() << '\n';
+            std::cout << "Done servicing " << current_aircraft->get_flight_num() << '\n';
             current_aircraft = nullptr;
         }
     }

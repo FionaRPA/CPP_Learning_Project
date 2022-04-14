@@ -32,6 +32,7 @@ void TowerSimulation::create_keystrokes()
 
     GL::keystrokes.emplace('z', []() { GL::ticks_per_sec = std::max(GL::ticks_per_sec - 1u, 1u); });
     GL::keystrokes.emplace('a', []() { GL::ticks_per_sec = std::min(GL::ticks_per_sec + 1u, 180u); });
+
     GL::keystrokes.emplace('p', []() { GL::is_paused = !GL::is_paused; });
     for(auto i = 0; i < 7; i++){
         GL::keystrokes.emplace('0' + i, [i, this]() { manager.countAircraft(factory.get_airline(i)); });
@@ -46,6 +47,7 @@ void TowerSimulation::display_help() const
     {
         std::cout << ks_pair.first << ' ';
     }
+
     std::cout << std::endl;
 }
 

@@ -1,6 +1,8 @@
 /home/fiona/Téléchargements/CLion-2021.3.2/clion-2021.3.2/bin/cmake/linux/bin/cmake -DCMAKE_BUILD_TYPE=Debug -DCMAKE_MAKE_PROGRAM=/home/fiona/Téléchargements/CLion-2021.3.2/clion-2021.3.2/bin/ninja/linux/ninja -G Ninja /home/fiona/Documents/Fio/Ecole/M1/CPP_Learning_Project
--- Could NOT find FreeGLUT (missing: FreeGLUT_DIR)
-Library GLUT found.
--- Configuring done
--- Generating done
--- Build files have been written to: /home/fiona/Documents/Fio/Ecole/M1/CPP_Learning_Project/cmake-build-debug
+CMake Error at CMakeLists.txt:36:
+  Parse error.  Expected a command name, got unquoted argument with text
+  "|||||||".
+
+
+-- Configuring incomplete, errors occurred!
+See also "/home/fiona/Documents/Fio/Ecole/M1/CPP_Learning_Project/cmake-build-debug/CMakeFiles/CMakeOutput.log".
