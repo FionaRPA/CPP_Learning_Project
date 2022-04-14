@@ -36,7 +36,6 @@ void TowerSimulation::create_keystrokes()
     for(auto i = 0; i < 7; i++){
         GL::keystrokes.emplace('0' + i, [i, this]() { manager.countAircraft(factory.get_airline(i)); });
     }
-    GL::keystrokes.emplace('m', [this]() { manager.write_aircraft_crash(); });
 }
 
 void TowerSimulation::display_help() const
@@ -68,6 +67,6 @@ void TowerSimulation::launch()
         return;
     }
     init_airport();
-    init_aircraft_types();
+    //init_aircraft_types();
     GL::loop();
 }

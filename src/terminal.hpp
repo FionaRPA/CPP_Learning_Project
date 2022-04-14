@@ -41,7 +41,7 @@ public:
 
     bool move() override
     {
-        if (in_use() && is_servicing()&& !(*current_aircraft).is_low_on_fuel())
+        if (in_use() && is_servicing())
         {
             ++service_progress;
         }
