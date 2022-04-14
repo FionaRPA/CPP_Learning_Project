@@ -10,8 +10,7 @@ class AircraftManager : public GL::DynamicObject
 {
 private:
     std::vector<std::unique_ptr<Aircraft>> aircrafts;
-    int nb_aircraft_crash = 0;
-    bool compare_to_aircraft(Aircraft &aircrafta, Aircraft &aircraftb) const;
+    bool compare_to_aircraft(Aircraft &first_aircraft, Aircraft &second_aircraft) const;
 
 
 public:
@@ -19,5 +18,4 @@ public:
     void countAircraft(std::string company);
     bool move() override;
     int get_required_fuel() const;
-    void write_aircraft_crash() const{std::cout << "nb aircraft crash >> " << nb_aircraft_crash << std::endl;};
 };

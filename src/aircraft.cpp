@@ -15,7 +15,6 @@ void Aircraft::turn_to_waypoint()
             const Point3D W = (waypoints[0] - waypoints[1]).normalize(d / 2.0f);
             target += W;
         }
-
         turn(target - pos - speed);
     }
 }
@@ -95,13 +94,6 @@ bool Aircraft::has_terminal() const
 
 bool Aircraft::move()
 {
-    if(fuel <= 0)
-    {
-        std::cout << "Aircraft crash" << std::endl;
-        throw AircraftCrash { flight_number + " crashed : no fuel" };
-        return false;
-    }
-
     if (waypoints.empty())
     {
         if (is_service_done)
@@ -122,6 +114,12 @@ bool Aircraft::move()
         // move in the direction of the current speed
         pos += speed;
 
+        if(is_circling()){
+            auto term = control.reserve_terminal(*this);
+            std::for_each(term.begin(), term.end(),
+                          [this](Waypoint &waypoint){waypoints.push_back(waypoint);}
+            );
+        }
         // if we are close to our next waypoint, stike if off the list
         if (!waypoints.empty() && distance_to(waypoints.front()) < DISTANCE_THRESHOLD)
         {
@@ -135,13 +133,12 @@ bool Aircraft::move()
             }
             waypoints.pop_front();
         }
-
         if (is_on_ground())
         {
             if (!landing_gear_deployed)
             {
                 using namespace std::string_literals;
-                throw AircraftCrash { flight_number + " crashed into the ground"s };
+                throw AircraftCrash { flight_number + " crashed to the ground" };
             }
         }
         else
@@ -153,7 +150,6 @@ bool Aircraft::move()
                 pos.z() -= SINK_FACTOR * (SPEED_THRESHOLD - speed_len);
             }
         }
-
         // update the z-value of the displayable structure
         GL::Displayable::z = pos.x() + pos.y();
     }
@@ -170,24 +166,7 @@ bool Aircraft::is_circling() const
     return !is_service_done && !is_at_terminal && !has_terminal();
 }
 
-bool Aircraft::is_low_on_fuel() const
-{
-    return fuel < 200;
-}
-
-int Aircraft::get_fuel() const
-{
-    return fuel;
-}
 
 bool Aircraft::aircraft_is_at_terminal(){
     return is_at_terminal;
-}
-
-int Aircraft::get_required_fuel() const
-{
-    if(is_low_on_fuel() && is_at_terminal){
-        return 3000 - fuel;
-    }
-    return 0;
 }
