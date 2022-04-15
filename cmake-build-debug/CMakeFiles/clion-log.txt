@@ -1,24 +1,8 @@
-/home/fiona/Téléchargements/CLion-2021.3.2/clion-2021.3.2/bin/cmake/linux/bin/cmake -DCMAKE_BUILD_TYPE=Debug -DCMAKE_MAKE_PROGRAM=/home/fiona/Téléchargements/CLion-2021.3.2/clion-2021.3.2/bin/ninja/linux/ninja -G Ninja /home/fiona/Documents/Fio/Travail/M1/CPP_Learning_Project
--- The C compiler identification is GNU 7.5.0
--- The CXX compiler identification is GNU 7.5.0
--- Detecting C compiler ABI info
--- Detecting C compiler ABI info - done
--- Check for working C compiler: /usr/bin/cc - skipped
--- Detecting C compile features
--- Detecting C compile features - done
--- Detecting CXX compiler ABI info
--- Detecting CXX compiler ABI info - done
--- Check for working CXX compiler: /usr/bin/c++ - skipped
--- Detecting CXX compile features
--- Detecting CXX compile features - done
--- Could NOT find FreeGLUT (missing: FreeGLUT_DIR)
-CMake Error at /home/fiona/Téléchargements/CLion-2021.3.2/clion-2021.3.2/bin/cmake/linux/share/cmake-3.21/Modules/FindPackageHandleStandardArgs.cmake:230 (message):
-  Could NOT find GLUT (missing: GLUT_glut_LIBRARY GLUT_INCLUDE_DIR)
-Call Stack (most recent call first):
-  /home/fiona/Téléchargements/CLion-2021.3.2/clion-2021.3.2/bin/cmake/linux/share/cmake-3.21/Modules/FindPackageHandleStandardArgs.cmake:594 (_FPHSA_FAILURE_MESSAGE)
-  /home/fiona/Téléchargements/CLion-2021.3.2/clion-2021.3.2/bin/cmake/linux/share/cmake-3.21/Modules/FindGLUT.cmake:139 (FIND_PACKAGE_HANDLE_STANDARD_ARGS)
-  CMakeLists.txt:58 (find_package)
+/home/fiona/Téléchargements/CLion-2021.3.2/clion-2021.3.2/bin/cmake/linux/bin/cmake -DCMAKE_BUILD_TYPE=Debug -DCMAKE_MAKE_PROGRAM=/home/fiona/Téléchargements/CLion-2021.3.2/clion-2021.3.2/bin/ninja/linux/ninja -G Ninja /home/fiona/Documents/Fio/Ecole/M1/CPP_Learning_Project
+CMake Error at CMakeLists.txt:36:
+  Parse error.  Expected a command name, got unquoted argument with text
+  "|||||||".
 
 
 -- Configuring incomplete, errors occurred!
-See also "/home/fiona/Documents/Fio/Travail/M1/CPP_Learning_Project/cmake-build-debug/CMakeFiles/CMakeOutput.log".
+See also "/home/fiona/Documents/Fio/Ecole/M1/CPP_Learning_Project/cmake-build-debug/CMakeFiles/CMakeOutput.log".
