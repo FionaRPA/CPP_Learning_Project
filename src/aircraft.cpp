@@ -15,7 +15,6 @@ void Aircraft::turn_to_waypoint()
             const Point3D W = (waypoints[0] - waypoints[1]).normalize(d / 2.0f);
             target += W;
         }
-
         turn(target - pos - speed);
     }
 }
@@ -186,3 +185,20 @@ bool Aircraft::aircraft_at_terminal(){
     return is_at_terminal;
 }
 
+int Aircraft::get_required_fuel() const
+{
+    if(is_low_on_fuel() && is_at_terminal){
+        return 3000 - fuel;
+    }
+    return 0;
+}
+
+void Aircraft::refill(int& fuel_stock)
+{
+    auto fuelMissing = 3000 - fuel;
+    std::cout << flight_number << " Add " << fuelMissing << "Liters of Fuel" << std::endl;
+    assert(fuelMissing >= 0 && "Fuel quantity is Lower than 0");
+    fuelMissing = std::min(fuel_stock, fuelMissing);
+    fuel += fuelMissing;
+    fuel_stock -= fuelMissing;
+}

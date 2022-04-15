@@ -91,7 +91,13 @@ public:
         {
             next_refill_time -= 1;
         }
+        std::for_each(terminals.begin(), terminals.end(),
+                      [this](Terminal &terminal){
+                          terminal.refill_aircraft_if_needed(fuel_stock)
+                              ;}
+                      );
         return true;
     }
+
     friend class Tower;
 };
