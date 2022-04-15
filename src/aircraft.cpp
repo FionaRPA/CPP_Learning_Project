@@ -88,38 +88,19 @@ void Aircraft::add_waypoint(const Waypoint& wp, const bool front)
     }
 }
 
-bool Aircraft::move()
+void Aircraft::move()
 {
-    if(fuel <= 0)
-    {
-        std::cout << "AIRCRAFT CRASH" << std::endl;
-        throw AircraftCrash { "AIRCRAFT " + flight_number + ": NO FUEL" };
-    }
     if (waypoints.empty())
     {
-        if (is_service_done)
-        {
-            return false;
-        }
-        const auto front = false;
-        for (const auto& wp: control.get_instructions(*this))
-        {
-            add_waypoint(wp, front);
-        }
+        waypoints = control.get_instructions(*this);
     }
+
     if (!is_at_terminal)
     {
-        fuel -= 1;
         turn_to_waypoint();
         // move in the direction of the current speed
         pos += speed;
 
-        if(is_circling()){
-            auto term = control.reserve_terminal(*this);
-            std::for_each(term.begin(), term.end(),
-                          [this](Waypoint &waypoint){waypoints.push_back(waypoint);}
-            );
-        }
         // if we are close to our next waypoint, stike if off the list
         if (!waypoints.empty() && distance_to(waypoints.front()) < DISTANCE_THRESHOLD)
         {
@@ -139,7 +120,7 @@ bool Aircraft::move()
             if (!landing_gear_deployed)
             {
                 using namespace std::string_literals;
-                throw AircraftCrash { "AIRCRAFT" + flight_number + " CRASHED !!!!" };
+                throw AircraftCrash { flight_number + " crashed into the ground"s };
             }
         }
         else
@@ -151,38 +132,13 @@ bool Aircraft::move()
                 pos.z() -= SINK_FACTOR * (SPEED_THRESHOLD - speed_len);
             }
         }
+
         // update the z-value of the displayable structure
         GL::Displayable::z = pos.x() + pos.y();
     }
-    return true;
-}
-
-bool Aircraft::has_terminal() const
-{
-    return !waypoints.empty() && waypoints.back().is_at_terminal();
 }
 
 void Aircraft::display() const
 {
     type.texture.draw(project_2D(pos), { PLANE_TEXTURE_DIM, PLANE_TEXTURE_DIM }, get_speed_octant());
 }
-
-bool Aircraft::is_circling() const
-{
-    return !is_service_done && !is_at_terminal && !has_terminal();
-}
-
-bool Aircraft::is_low_on_fuel() const
-{
-    return fuel < 200;
-}
-
-int Aircraft::get_fuel() const
-{
-    return fuel;
-}
-
-bool Aircraft::aircraft_at_terminal(){
-    return is_at_terminal;
-}
-

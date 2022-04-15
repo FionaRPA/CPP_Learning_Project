@@ -9,7 +9,6 @@
 #include "runway.hpp"
 #include "terminal.hpp"
 #include "tower.hpp"
-#include "aircraft_manager.hpp"
 
 #include <vector>
 
@@ -17,15 +16,10 @@ class Airport : public GL::Displayable, public GL::DynamicObject
 {
 private:
     const AirportType& type;
-    const AircraftManager& manager;
     const Point3D pos;
     const GL::Texture2D texture;
     std::vector<Terminal> terminals;
     Tower tower;
-
-    int fuel_stock = 0;
-    int ordered_fuel = 0;
-    int next_refill_time = 0;
 
     // reserve a terminal
     // if a terminal is free, return
@@ -53,13 +47,13 @@ private:
     {
         return type.terminal_to_air(pos, 0, terminal_number);
     }
+
     Terminal& get_terminal(const size_t terminal_num) { return terminals.at(terminal_num); }
 
 public:
-    Airport(const AirportType& type_, AircraftManager& aircraft_manager, const Point3D& pos_, const img::Image* image, const float z_ = 1.0f) :
+    Airport(const AirportType& type_, const Point3D& pos_, const img::Image* image, const float z_ = 1.0f) :
         GL::Displayable { z_ },
         type { type_ },
-        manager { aircraft_manager },
         pos { pos_ },
         texture { image },
         terminals { type.create_terminals() },
@@ -70,28 +64,13 @@ public:
 
     void display() const override { texture.draw(project_2D(pos), { 2.0f, 2.0f }); }
 
-    bool move() override
+    void move() override
     {
         for (auto& t : terminals)
         {
             t.move();
         }
-        if(next_refill_time == 0)
-        {
-            auto last_ordered_fuel = ordered_fuel;
-            fuel_stock += ordered_fuel;
-            ordered_fuel = std::min(manager.get_required_fuel(), 5000);
-            next_refill_time = 100;
-            std::cout << "Quantity of petrol received : " << last_ordered_fuel
-                      << "\nQuantity of petrol in stock : " << fuel_stock
-                      << "\nQuantity of petrol ordered :" << ordered_fuel
-                      <<std::endl;
-        }
-        else
-        {
-            next_refill_time -= 1;
-        }
-        return true;
     }
+
     friend class Tower;
 };
