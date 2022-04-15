@@ -69,8 +69,7 @@ void Tower::arrived_at_terminal(const Aircraft& aircraft)
 WaypointQueue Tower::reserve_terminal(Aircraft& aircraft)
 {
     const auto vp = airport.reserve_terminal(aircraft);
-    if (!vp.first.empty())
-    {
+    if (!vp.first.empty()){
         reserved_terminals.emplace(&aircraft, vp.second);
         return vp.first;
     }

@@ -88,30 +88,28 @@ void Aircraft::add_waypoint(const Waypoint& wp, const bool front)
     }
 }
 
-bool Aircraft::has_terminal() const
-{
-    return !waypoints.empty() && waypoints.back().is_at_terminal();
-}
-
 bool Aircraft::move()
 {
-
+    if(fuel <= 0)
+    {
+        std::cout << "AIRCRAFT CRASH" << std::endl;
+        throw AircraftCrash { "AIRCRAFT " + flight_number + ": NO FUEL" };
+    }
     if (waypoints.empty())
     {
         if (is_service_done)
         {
             return false;
         }
-        //waypoints = control.get_instructions(*this);
         const auto front = false;
         for (const auto& wp: control.get_instructions(*this))
         {
             add_waypoint(wp, front);
         }
     }
-
     if (!is_at_terminal)
     {
+        fuel -= 1;
         turn_to_waypoint();
         // move in the direction of the current speed
         pos += speed;
@@ -141,7 +139,7 @@ bool Aircraft::move()
             if (!landing_gear_deployed)
             {
                 using namespace std::string_literals;
-                throw AircraftCrash { flight_number + " crashed into the ground"s };
+                throw AircraftCrash { "AIRCRAFT" + flight_number + " CRASHED !!!!" };
             }
         }
         else
@@ -153,11 +151,15 @@ bool Aircraft::move()
                 pos.z() -= SINK_FACTOR * (SPEED_THRESHOLD - speed_len);
             }
         }
-
         // update the z-value of the displayable structure
         GL::Displayable::z = pos.x() + pos.y();
     }
     return true;
+}
+
+bool Aircraft::has_terminal() const
+{
+    return !waypoints.empty() && waypoints.back().is_at_terminal();
 }
 
 void Aircraft::display() const
@@ -168,5 +170,19 @@ void Aircraft::display() const
 bool Aircraft::is_circling() const
 {
     return !is_service_done && !is_at_terminal && !has_terminal();
+}
+
+bool Aircraft::is_low_on_fuel() const
+{
+    return fuel < 200;
+}
+
+int Aircraft::get_fuel() const
+{
+    return fuel;
+}
+
+bool Aircraft::aircraft_at_terminal(){
+    return is_at_terminal;
 }
 

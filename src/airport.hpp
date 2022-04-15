@@ -23,6 +23,10 @@ private:
     std::vector<Terminal> terminals;
     Tower tower;
 
+    int fuel_stock = 0;
+    int ordered_fuel = 0;
+    int next_refill_time = 0;
+
     // reserve a terminal
     // if a terminal is free, return
     // 1. a sequence of waypoints reaching the terminal from the runway-end and
@@ -71,6 +75,21 @@ public:
         for (auto& t : terminals)
         {
             t.move();
+        }
+        if(next_refill_time == 0)
+        {
+            auto last_ordered_fuel = ordered_fuel;
+            fuel_stock += ordered_fuel;
+            ordered_fuel = std::min(manager.get_required_fuel(), 5000);
+            next_refill_time = 100;
+            std::cout << "Quantity of petrol received : " << last_ordered_fuel
+                      << "\nQuantity of petrol in stock : " << fuel_stock
+                      << "\nQuantity of petrol ordered :" << ordered_fuel
+                      <<std::endl;
+        }
+        else
+        {
+            next_refill_time -= 1;
         }
         return true;
     }

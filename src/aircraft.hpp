@@ -21,6 +21,7 @@ private:
     bool landing_gear_deployed = false; // is the landing gear deployed?
     bool is_at_terminal        = false;
     bool is_service_done = false;
+    int fuel;
 
     // turn the aircraft to arrive at the next waypoint
     // try to facilitate reaching the waypoint after the next by facing the
@@ -53,7 +54,8 @@ public:
         flight_number { flight_number_ },
         pos { pos_ },
         speed { speed_ },
-        control { control_ }
+        control { control_ },
+        fuel { 150 + rand() % (3000-150)}
     {
         speed.cap_length(max_speed());
     }
@@ -68,7 +70,9 @@ public:
     bool is_circling() const;
 
     const std::string get_company() const { return std::string(flight_number.cbegin(), flight_number.cbegin()+2); }
-    bool aircraft_is_at_terminal();
-
+    bool is_low_on_fuel() const;
+    int get_required_fuel() const;
+    int get_fuel() const;
+    bool aircraft_at_terminal();
     friend class Tower;
 };
