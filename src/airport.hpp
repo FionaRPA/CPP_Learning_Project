@@ -82,9 +82,9 @@ public:
             fuel_stock += ordered_fuel;
             ordered_fuel = std::min(manager.get_required_fuel(), 5000);
             next_refill_time = 100;
-            std::cout << "Quantity of petrol received : " << last_ordered_fuel
-                      << "\nQuantity of petrol in stock : " << fuel_stock
-                      << "\nQuantity of petrol ordered :" << ordered_fuel
+            std::cout << "Quantity of fuel received : " << last_ordered_fuel
+                      << "\nQuantity of fuel in stock : " << fuel_stock
+                      << "\nQuantity of fuel ordered :" << ordered_fuel
                       <<std::endl;
         }
         else

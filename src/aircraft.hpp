@@ -68,7 +68,6 @@ public:
 
     void display() const override;
     bool move() override;
-
     bool is_circling() const;
 
     const std::string get_company() const { return std::string(flight_number.cbegin(), flight_number.cbegin()+2); }

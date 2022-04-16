@@ -92,7 +92,7 @@ bool Aircraft::move()
     if(fuel <= 0)
     {
         std::cout << "AIRCRAFT CRASH" << std::endl;
-        throw AircraftCrash { "AIRCRAFT " + flight_number + ": NO FUEL" };
+        throw AircraftCrash { "WARN: AIRCRAFT " + flight_number + " NO FUEL -> CRASH" };
     }
     if (waypoints.empty())
     {
