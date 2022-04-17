@@ -194,7 +194,7 @@ int Aircraft::get_required_fuel() const
 void Aircraft::refill(int& fuel_stock)
 {
     auto fuelMissing = 3000 - fuel;
-    std::cout << flight_number << " Add " << fuelMissing << "Liters of Fuel" << std::endl;
+    std::cout << flight_number << " Add " << fuelMissing << " Liters of Fuel" << std::endl;
     assert(fuelMissing >= 0 && "Fuel quantity is lower than 0");
     fuelMissing = std::min(fuel_stock, fuelMissing);
     fuel += fuelMissing;

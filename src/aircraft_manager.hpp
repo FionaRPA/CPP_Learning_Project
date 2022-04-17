@@ -18,5 +18,5 @@ public:
     void countAircraft(std::string company);
     bool move() override;
     int get_required_fuel() const;
-    void write_aircraft_crash() const{std::cout << "nb aircraft crash >> " << nb_aircraft_crash << std::endl;};
+    void write_aircraft_crash() const{std::cout << "NB aircraft crash >> " << nb_aircraft_crash << std::endl;};
 };

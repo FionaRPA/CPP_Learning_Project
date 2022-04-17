@@ -1,0 +1,10 @@
+# ninja log v5
+2	5785	1650220848742860634	CMakeFiles/tower.dir/src/tower_sim.cpp.o	9be3f681b0dfef7b
+54	6956	1648812951151294070	CMakeFiles/tower.dir/src/img/image.cpp.o	2aedd144f46fcc53
+1	5069	1650220848054847921	CMakeFiles/tower.dir/src/aircraft_manager.cpp.o	dd79c4fcb84c3ab8
+0	48	1650141332887965163	build.ninja	69c56abe87a6c2a0
+5785	6017	1650220848998865365	tower	97535db66699175d
+3	4990	1650220847970846369	CMakeFiles/tower.dir/src/main.cpp.o	d326a324df0b6d25
+1	5177	1650220848162849917	CMakeFiles/tower.dir/src/aircraft.cpp.o	7ceef2babe09e745
+2	4852	1650220847838843930	CMakeFiles/tower.dir/src/tower.cpp.o	c3fbebf1847f1d8d
+1	3876	1650220846850825672	CMakeFiles/tower.dir/src/GL/opengl_interface.cpp.o	bc4c2c36b99f80c

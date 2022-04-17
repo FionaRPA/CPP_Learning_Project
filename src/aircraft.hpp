@@ -56,7 +56,7 @@ public:
         pos { pos_ },
         speed { speed_ },
         control { control_ },
-        fuel { 150 + rand() % (350-150)}
+        fuel { 150 + rand() % 200}
     {
         speed.cap_length(max_speed());
     }
