@@ -75,9 +75,10 @@ void Aircraft::operate_landing_gear()
     }
 }
 
-void Aircraft::add_waypoint(const Waypoint& wp, const bool front)
+template <bool front>
+void Aircraft::add_waypoint(const Waypoint& wp)
 {
-    if (front)
+    if constexpr (front)
     {
         waypoints.push_front(wp);
     }
@@ -91,7 +92,6 @@ bool Aircraft::move()
 {
     if(fuel <= 0)
     {
-        std::cout << "AIRCRAFT CRASH" << std::endl;
         throw AircraftCrash { "WARN: AIRCRAFT " + flight_number + " NO FUEL -> CRASH" };
     }
     if (waypoints.empty())
@@ -100,10 +100,9 @@ bool Aircraft::move()
         {
             return false;
         }
-        const auto front = false;
         for (const auto& wp: control.get_instructions(*this))
         {
-            add_waypoint(wp, front);
+            add_waypoint<false>(wp);
         }
     }
     if (!is_at_terminal)
@@ -132,13 +131,12 @@ bool Aircraft::move()
             }
             waypoints.pop_front();
         }
-
         if (is_on_ground())
         {
             if (!landing_gear_deployed)
             {
                 using namespace std::string_literals;
-                throw AircraftCrash { "AIRCRAFT" + flight_number + " CRASHED !!!!" };
+                throw AircraftCrash { "WARN: AIRCRAFT" + flight_number + " CRASHED ON THE GROUND !!!!" };
             }
         }
         else
@@ -197,7 +195,7 @@ void Aircraft::refill(int& fuel_stock)
 {
     auto fuelMissing = 3000 - fuel;
     std::cout << flight_number << " Add " << fuelMissing << "Liters of Fuel" << std::endl;
-    assert(fuelMissing >= 0 && "Fuel quantity is Lower than 0");
+    assert(fuelMissing >= 0 && "Fuel quantity is lower than 0");
     fuelMissing = std::min(fuel_stock, fuelMissing);
     fuel += fuelMissing;
     fuel_stock -= fuelMissing;

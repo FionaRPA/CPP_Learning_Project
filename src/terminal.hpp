@@ -50,7 +50,7 @@ public:
 
     void refill_aircraft_if_needed(int& fuel_stock) const
     {
-        if(current_aircraft != nullptr && (*current_aircraft).is_low_on_fuel() && (*current_aircraft).aircraft_at_terminal()){
+        if(in_use() && (*current_aircraft).is_low_on_fuel() && (*current_aircraft).aircraft_at_terminal()){
             (*current_aircraft).refill(fuel_stock);
         }
     }

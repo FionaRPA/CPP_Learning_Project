@@ -6,7 +6,7 @@
 #include <cmath>
 #include <iostream>
 #include <numeric>
-
+/*
 struct Point2D
 {
     float values[2] {};
@@ -172,8 +172,179 @@ struct Point3D
         return *this;
     }
 };
+*/
 
+template <int dimension, typename TypeElement>
+class Point
+{
+    
+public:
+    std::array<TypeElement,dimension> values {};
+    
+    Point() = default;
+    // Constructeur Point 2D
+    Point(TypeElement x, TypeElement y) : values { x, y }
+    {
+        static_assert(dimension==2, "Not the good number of parameters");
+    }
+    // Constructeur Point 3D
+    Point(TypeElement x, TypeElement y, TypeElement z) : values { x, y, z } 
+    {
+        static_assert(dimension==3, "Not the good number of parameters");
+    }
 
+    template <typename... E>
+    Point(TypeElement type, E&&... elem) : values { type, static_cast<TypeElement>(std::forward<E>(elem))... }
+    {
+        static_assert(sizeof...(E)==dimension-1, "Not the good number of parameters");
+    }
+
+    TypeElement& x()
+    {
+        return values[0];
+    }
+    TypeElement x() const
+    {
+        return values[0];
+    }
+
+    TypeElement& y()
+    {
+        static_assert(dimension>=2, "Dimension is lower than 2");
+        return values[1];
+    }
+
+    TypeElement y() const
+    {
+        static_assert(dimension>=2, "Dimension is lower than 2");
+        return values[1];
+    }
+
+    TypeElement& z()
+    {
+        static_assert(dimension>=3, "Dimension is lower than 3");
+        return values[2];
+    }
+
+    TypeElement z() const
+    {
+        static_assert(dimension>=3, "Dimension is lower than 3");
+        return values[2];
+    }
+
+    Point<dimension, TypeElement>& operator+=(const Point<dimension, TypeElement>& other)
+    {
+        std::transform(
+            values.begin(), values.end(), other.values.begin(),
+            values.begin(),
+            std::plus<TypeElement>()
+        );
+        return *this;
+    }
+
+    Point<dimension, TypeElement>& operator-=(const Point<dimension, TypeElement>& other)
+    {
+        std::transform(
+            values.begin(), values.end(), other.values.begin(),
+            values.begin(),
+            std::minus<TypeElement>()
+        );
+        return *this;
+    }
+
+    Point<dimension, TypeElement>& operator*=(const TypeElement scalar)
+    {
+        std::transform(
+            values.begin(), values.end(), values.begin(),
+            [scalar](TypeElement coord){return coord * scalar;}
+        );
+        return *this;
+    }
+
+    Point<dimension, TypeElement> operator+(const Point<dimension, TypeElement>& other) const
+    {
+        Point<dimension, TypeElement> result = *this;
+        result += other;
+        return result;
+    }
+
+    Point<dimension, TypeElement> operator-(const Point<dimension, TypeElement>& other) const
+    {
+        Point<dimension, TypeElement> result = *this;
+        result -= other;
+        return result;
+    }
+
+    Point<dimension, TypeElement> operator*(const float scalar) const
+    {
+        Point<dimension, TypeElement> result = *this;
+        result *= scalar;
+        return result;
+    }
+
+    Point<dimension, TypeElement>& operator*=(const Point<dimension, TypeElement>& other)
+    {
+        x() *= other.x();
+        y() *= other.y();
+        if constexpr(dimension > 2)
+        {
+            z() *= other.z();
+        }
+        return *this;
+    }
+
+    Point<dimension, TypeElement> operator*(const Point<dimension, TypeElement>& other) const
+    {
+        Point<dimension, TypeElement> result = *this;
+        result *= other;
+        return result;
+    }
+
+    Point<dimension, TypeElement> operator-() const { 
+        if constexpr(dimension == 2)
+            return Point<dimension, TypeElement> { -x(), -y() }; 
+        return Point<dimension, TypeElement> { -x(), -y(), -z() }; 
+    }
+
+    TypeElement length() const { 
+        return std::sqrt(
+            std::reduce(values.begin(), values.end(), 0.,   
+                        [](TypeElement f1, TypeElement f2) {return f1 + f2*f2;})
+        );
+    }
+
+    float distance_to(const Point<dimension, TypeElement>& other) const { 
+        return (*this - other).length(); 
+    }
+
+    Point<dimension, TypeElement>& normalize(const TypeElement target_len = 1.0f)
+    {
+        const float current_len = length();
+        if (current_len == 0)
+        {
+            throw std::logic_error("cannot normalize vector of length 0");
+        }
+
+        *this *= (target_len / current_len);
+        return *this;
+    }
+
+    Point<dimension, TypeElement>& cap_length(const TypeElement max_len)
+    {
+        assert(max_len > 0);
+
+        const float current_len = length();
+        if (current_len > max_len)
+        {
+            *this *= (max_len / current_len);
+        }
+
+        return *this;
+    }
+};
+
+using Point2D = Point<2, float>;
+using Point3D = Point<3, float>;
 
 // our 3D-coordinate system will be tied to the airport: the runway is parallel to the x-axis, the z-axis
 // points towards the sky, and y is perpendicular to both thus,
